@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -x
+
+git status
+
+git tag --sort=-creatordate
+
+latest_tag=$(git describe --abbrev=0)
+body=$(git tag --list --format='%(body)' $latest_tag)
+
+echo $body | sed '/^-----BEGIN PGP/,/^-----END PGP/d'
