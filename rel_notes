@@ -1,6 +1,10 @@
 #!/bin/bash
 
-latest_tag=$(git describe --abbrev=0)
-body=$(git tag --list --format='%(body)' $latest_tag)
+REPO="dentarg/test-actions-releases"
+LATEST_TAG=$(git describe --abbrev=0)
+PREV_TAG=$(git describe --abbrev=0 "${LATEST_TAG}~")
+TAG_BODY=$(git tag --list --format='%(body)' $LATEST_TAG)
 
-echo "$body" | sed '/^-----BEGIN PGP/,/^-----END PGP/d'
+echo "$TAG_BODY" | sed '/^-----BEGIN PGP/,/^-----END PGP/d'
+echo ""
+echo "Changes: https://github.com/${REPO}/compare/${PREV_TAG}...${LATEST_TAG}"
