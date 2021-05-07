@@ -1,0 +1,12 @@
+#!/bin/bash
+
+[[ "$1" == "refs/heads/main" ]] && echo "main" && exit
+
+echo "not main: ${1}"
+
+
+git tag --sort=-creatordate
+
+$(git describe --abbrev=0)
+
+echo "TAG_BODY=$(git tag --list --format='%(body)' $(git describe --abbrev=0) | sed '/^-----BEGIN PGP/,/^-----END PGP/d')" >> $GITHUB_ENV

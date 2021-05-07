@@ -13,10 +13,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      # Needed because of https://github.com/actions/checkout/issues/290
+      - name: Fetch annotated tags
+        run: git fetch --force --tags
+
       - name: Read annotated tag body
         run: |
           ./debug
           echo "RELEASE_NOTES=$(./rel_notes)" >> $GITHUB_ENV
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
