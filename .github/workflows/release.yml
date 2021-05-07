@@ -13,12 +13,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # to be able to list next to latest tag
 
       # Needed because of https://github.com/actions/checkout/issues/290
       - name: Fetch annotated tags
         run: git fetch --force --tags
 
-      - name: Read annotated tag body
+      - name: Construct release notes
         run: |
           echo 'RELEASE_NOTES<<EOF' >> $GITHUB_ENV
           ./rel_notes >> $GITHUB_ENV
